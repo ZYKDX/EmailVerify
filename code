@@ -1,0 +1,44 @@
+// install modules
+npm i nodemailer nodemailer-smtp-transport –save
+
+// introduce the module for sending email
+const nodemailer = require('nodemailer')
+const smtpTransport = require('nodemailer-smtp-transport’)
+
+// create connection object
+const transport = nodemailer.createTransport(smtpTransport({
+  host: ‘smtp.qq.com’,  // sending email through qq.com
+  port: 465, // smtp port
+  secure: true,
+  auth: {
+    user: ‘zhou@qq.com', //username
+    pass: 'xxxxxxxxx' // SMTP auth code
+    }}));
+
+// code generation – omitted
+
+// send code
+let EMAIL=req.body.e_mail // get the user’s email address
+if (regEmail.test(EMAIL)){ // success
+  let code=randomFns()
+  transport.sendMail({
+  from: ‘zhou@qq.com', 
+  to: EMAIL, 
+  subject: ‘Verify your email address – from NEU online community', 
+  html: 
+// email content
+// welcome! you have to verify your email address to continue signing up for a new account at our website blabla},
+
+const Code = require(“../models/Code”)
+const e_mail = EMAIL
+await Code.deleteMany({e_mail}) // delete the old code related to the address
+const [data] = await Code.insertMany({e_mail,veri_code:code})
+setTimeout(async ()=>{  // expire after 5 mins
+  await Code.deleteMany({e_mail})
+},1000*60*5)
+router.post('/new',async (req,res)=>{
+const {e_mail,veri_code} = req.body
+const vire = await require('../../models/Code').findOne({e_mail,veri_code})
+assert(vire,422,’Verify failed')
+awaitrequire('../../models/Code').deleteMany({e_mail})
+return res.send({message:”code is correct”})})
